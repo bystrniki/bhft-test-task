@@ -137,6 +137,3 @@ docker run -p 9090:4242 -e VERBOSE=1 todo-app:latest
 ```
 
 After test execution finishes, you can find the HTML report in the `build/reports/gatling` directory. The report contains detailed statistics and graphs showing the performance results for the load tests.
-
-#### Found bugs
-
