@@ -44,3 +44,6 @@ bin/
 ### Environment variables ###
 .env
 .env.local
+
+### Logs ###
+logs/

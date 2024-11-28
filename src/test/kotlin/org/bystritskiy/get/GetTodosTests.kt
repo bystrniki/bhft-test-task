@@ -74,4 +74,73 @@ class GetTodosTests : BaseTest() {
             }.assertAll()
         }
     }
+
+    @Test
+    fun getTodosWithOffsetTest() {
+        val generatedTodos = step("Generate todos") {
+            buildList {
+                repeat(10) {
+                    add(TodoUtils.generateTodo())
+                }
+            }
+        }
+
+        step("Create the generated todos") {
+            generatedTodos.forEach { todo ->
+                client.createTodo(todo)
+                createdTodoIds.add(todo.id)
+            }
+        }
+
+        step("Retrieve todo list with offset and assert it") {
+            val offset = 3
+            val allTodos = client.getTodos()
+            val todosWithOffset = client.getTodos(offset = offset)
+
+            SoftAssertions().apply {
+                assertThat(todosWithOffset.size)
+                    .`as`("Retrieved todo list size is equal to total size minus offset")
+                    .isEqualTo(allTodos.size - offset)
+
+                assertThat(todosWithOffset)
+                    .usingRecursiveComparison()
+                    .isEqualTo(allTodos.drop(offset))
+            }.assertAll()
+        }
+    }
+
+    @Test
+    fun getTodosWithOffsetAndLimitTest() {
+        val generatedTodos = step("Generate todos") {
+            buildList {
+                repeat(10) {
+                    add(TodoUtils.generateTodo())
+                }
+            }
+        }
+
+        step("Create the generated todos") {
+            generatedTodos.forEach { todo ->
+                client.createTodo(todo)
+                createdTodoIds.add(todo.id)
+            }
+        }
+
+        step("Retrieve todo list with offset and limit and assert it") {
+            val offset = 3
+            val limit = 5
+            val allTodos = client.getTodos()
+            val todosWithOffsetAndLimit = client.getTodos(offset = offset, limit = limit)
+
+            SoftAssertions().apply {
+                assertThat(todosWithOffsetAndLimit.size)
+                    .`as`("Retrieved todo list size is equal to limit")
+                    .isEqualTo(limit)
+
+                assertThat(todosWithOffsetAndLimit)
+                    .usingRecursiveComparison()
+                    .isEqualTo(allTodos.drop(offset).take(limit))
+            }.assertAll()
+        }
+    }
 }
