@@ -30,7 +30,7 @@ interface TodoClient {
 
     @DELETE("todos/{id}")
     fun deleteTodo(
-        @Path("id") id: ULong,
+        @Path("id") id: String,
         @Header("Authorization") authorization: String
     ): Call<Unit>
 }

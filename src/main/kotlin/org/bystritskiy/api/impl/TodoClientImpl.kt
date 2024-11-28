@@ -47,6 +47,6 @@ class TodoClientImpl(baseUrl: String) {
     }
 
     fun deleteTodo(id: ULong, authorization: String? = ""): Response<Unit> {
-        return api.deleteTodo(id, authorization ?: "").execute()
+        return api.deleteTodo(id.toString(), authorization ?: "").execute()
     }
 }
